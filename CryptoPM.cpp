@@ -2,14 +2,14 @@
 todo:
 1. main user input [90%]
 1.1. proper menu handling [60%]
-1.2. more approachable look[20%]
-1.3. exceptions handling[0%]
+1.2. more approachable look[80%]
+1.3. exceptions handling[40%]
 
-2. file access [80%]
+2. file access [100%]
 2.1. file security [0%]
 
 
-3. encryption/decryption algorithm [0%]
+3. encryption/decryption algorithm [20%]
 
 4. denuvo [0%]
 
@@ -54,9 +54,10 @@ void addPassword(vector<PasswordEntry>& data);
 vector<PasswordEntry> removePassword(vector<PasswordEntry>& data);
 bool checkIfExistsInDB(vector<PasswordEntry>& data, string field, char c);
 bool matchesEntryRtoU(const vector<PasswordEntry>& data, string field1, string field2);
+string encryptDecrypt(string toEncrypt);
 void saveToCSV(const vector<PasswordEntry>& db, const string& filename);
 vector<PasswordEntry> loadFromCSV(string& filename);
-string filename_i = "data";
+string filename_i = "data.txt";
 string& db_filename = filename_i;
 char exit_flag = 'n';
 
@@ -67,11 +68,12 @@ int main()
 {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
-    cout << "*   *   *   *[ CRYPTO-PM ]*   *   *   *" << endl;
+    setlocale(LC_ALL, "Russian");
+    cout << "\033[32m*   *   *   *[ CRYPTO-PM ]*   *   *   *\033[0m" << endl;
     showMenu();
     string choice_i;
     char choice;
-    cout << "Выберите пункт: ";
+    cout << "\033[32mР’С‹Р±РµСЂРёС‚Рµ РїСѓРЅРєС‚: \033[0m";
     cin >> choice_i;
     choice = choice_i[0];
     vector<PasswordEntry> data = loadFromCSV(db_filename);
@@ -84,10 +86,10 @@ int main()
                 cout << "lol!" << endl;
                 break;
             case '2':
-                cout << "Сколько записей необходимо добавить? ";
+                cout << "РЎРєРѕР»СЊРєРѕ Р·Р°РїРёСЃРµР№ РЅРµРѕР±С…РѕРґРёРјРѕ РґРѕР±Р°РІРёС‚СЊ? ";
                 cin >> k;
                 for (int i = 0; i < k; i++) {
-                    //cout << "Новый ресурс под номером [" << i+1 << "]:" << endl;
+                    //cout << "РќРѕРІС‹Р№ СЂРµСЃСѓСЂСЃ РїРѕРґ РЅРѕРјРµСЂРѕРј [" << i+1 << "]:" << endl;
                     addPassword(data);
                 }
                 saveToCSV(data, db_filename);
@@ -100,10 +102,10 @@ int main()
                 saveToCSV(data, db_filename);
                 break;
             case '5':
-                cout << "Сохраненные пароли:" << endl;
+                cout << "РЎРѕС…СЂР°РЅРµРЅРЅС‹Рµ РїР°СЂРѕР»Рё:" << endl;
                 for (PasswordEntry entry : data) {
-                    cout << "Ресурс: " << entry.getResourceName() << "\nИмя пользователя: " + entry.getUserName() <<
-                        "\nПароль: " + entry.getPassword() << "\n" << endl;
+                    cout << "\033[32mР РµСЃСѓСЂСЃ: " << entry.getResourceName() << "\033[0m\nРРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ: " + entry.getUserName() <<
+                        "\nРџР°СЂРѕР»СЊ: " + entry.getPassword() << "\n" << endl;
                 }
                 break;
             case '6':
@@ -114,9 +116,9 @@ int main()
                 return 0;
                 break;
             default:
-                cout << "Неверный ввод! Попробуйте снова" << endl;
+                cout << "\033[31mРќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ! РџРѕРїСЂРѕР±СѓР№С‚Рµ СЃРЅРѕРІР°\033[0m" << endl;
         }
-        cout << "Выберите пункт: ";
+        cout << "\033[32mР’С‹Р±РµСЂРёС‚Рµ РїСѓРЅРєС‚: \033[0m";
         cin >> choice_i;
         choice = choice_i[0];
     }
@@ -126,31 +128,32 @@ int main()
 void addPassword(vector<PasswordEntry>& data)
 {
     string resource_name;
-    cout << "Введите имя ресурса:";
+    cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ СЂРµСЃСѓСЂСЃР°:";
     std::getline(std::cin >> std::ws, resource_name);
     string user_name;
-    cout << "Введите имя пользователя на ресурса:";
+    cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅР° СЂРµСЃСѓСЂСЃР°:";
     std::getline(std::cin >> std::ws, user_name);
     string password;
-    cout << "Введите пароль:";
+    cout << "Р’РІРµРґРёС‚Рµ РїР°СЂРѕР»СЊ:";
     std::getline(std::cin >> std::ws, password);
+    cout << "\n";
     PasswordEntry entry = PasswordEntry(resource_name, user_name, password);
     data.push_back(entry);
 }
 
 vector<PasswordEntry> removePassword(vector<PasswordEntry>& data) {
     string resource_name;
-    cout << "Введите имя ресурса, который хотите удалить: ";
+    cout << "Р’РІРµРґРёС‚Рµ РёРјСЏ СЂРµСЃСѓСЂСЃР°, РєРѕС‚РѕСЂС‹Р№ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ: ";
     std::getline(std::cin >> std::ws, resource_name);
     if (!checkIfExistsInDB(data, resource_name, 'r')) {
-        cout << "Запись с таким именем ресурса не была найдена в базе данных! Возвращаюсь к вызову пункта меню." << endl;
+        cout << "\033[31mР—Р°РїРёСЃСЊ СЃ С‚Р°РєРёРј РёРјРµРЅРµРј СЂРµСЃСѓСЂСЃР° РЅРµ Р±С‹Р»Р° РЅР°Р№РґРµРЅР° РІ Р±Р°Р·Рµ РґР°РЅРЅС‹С…!\nР’РѕР·РІСЂР°С‰Р°СЋСЃСЊ Рє РІС‹Р·РѕРІСѓ РїСѓРЅРєС‚Р° РјРµРЅСЋ.\033[0m" << endl;
         return data;
     }
     string user_name;
-    cout << "Для подтверждения введите имя пользователя на ресурсе: ";
+    cout << "Р”Р»СЏ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ РІРІРµРґРёС‚Рµ РёРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅР° СЂРµСЃСѓСЂСЃРµ: ";
     std::getline(std::cin >> std::ws, user_name);
     if (!matchesEntryRtoU(data,resource_name,user_name)) {
-        cout << "Возвращаюсь к вызову пункта меню." << endl;
+        cout << "Р’РѕР·РІСЂР°С‰Р°СЋСЃСЊ Рє РІС‹Р·РѕРІСѓ РїСѓРЅРєС‚Р° РјРµРЅСЋ." << endl;
         return data;
     }
     
@@ -163,7 +166,7 @@ vector<PasswordEntry> removePassword(vector<PasswordEntry>& data) {
             newData.push_back(e);
         }
     }
-    cout << "Запись была успешно удалена!\n";
+    cout << "Р—Р°РїРёСЃСЊ Р±С‹Р»Р° СѓСЃРїРµС€РЅРѕ СѓРґР°Р»РµРЅР°!\n";
     
     return newData;
 
@@ -203,28 +206,39 @@ bool matchesEntryRtoU(const vector<PasswordEntry>& data, string field1, string f
                 return true;
             }
             else {
-                cout << "Введенные поля не совпадают!" << endl;
+                cout << "\033[31mР’РІРµРґРµРЅРЅС‹Рµ РїРѕР»СЏ РЅРµ СЃРѕРІРїР°РґР°СЋС‚!\033[0m" << endl;
                 return false;
             }
         }
     }
-    cout << "Не было найдено данной записи в базе данных!" << endl;
+    cout << "\033[31mРќРµ Р±С‹Р»Рѕ РЅР°Р№РґРµРЅРѕ РґР°РЅРЅРѕР№ Р·Р°РїРёСЃРё РІ Р±Р°Р·Рµ РґР°РЅРЅС‹С…!\033[0m" << endl;
     return false;
+}
+
+string encryptDecrypt(string toEncrypt) {
+    char key = 'K';
+    string output = toEncrypt;
+
+    for (int i = 0; i < toEncrypt.size(); i++) {
+        output[i] = toEncrypt[i] ^ key;
+    }
+
+    return output;
 }
 
 void saveToCSV(const vector<PasswordEntry>& db, const string& filename) {
     ofstream file(filename);
     if (!file.is_open()) {
-        cerr << "Не удалось сохранить файл " << filename << "\n";
+        cerr << "РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕС…СЂР°РЅРёС‚СЊ С„Р°Р№Р» " << filename << "\n";
         return;
     }
 
     for (PasswordEntry entry : db) {
-        file << entry.getResourceName() << ","
-            << entry.getUserName() << ","
-            << entry.getPassword() << "\n";
+        file << encryptDecrypt(entry.getResourceName()) << ","
+            << encryptDecrypt(entry.getUserName()) << ","
+            << encryptDecrypt(entry.getPassword()) << "\n";
     }
-    // файл закроется автоматически
+    // С„Р°Р№Р» Р·Р°РєСЂРѕРµС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё
 }
 
 
@@ -232,8 +246,8 @@ vector<PasswordEntry> loadFromCSV(string& filename) {
     vector<PasswordEntry> db;
     ifstream file(filename);
     if (!file.is_open()) {
-        cout << "Файл ещё не был создан, возвращаю чистую базу данных." << endl;
-        return db; // пустой вектор
+        cout << "Р¤Р°Р№Р» РµС‰С‘ РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ, РІРѕР·РІСЂР°С‰Р°СЋ С‡РёСЃС‚СѓСЋ Р±Р°Р·Сѓ РґР°РЅРЅС‹С…." << endl;
+        return db; // РїСѓСЃС‚РѕР№ РІРµРєС‚РѕСЂ
     }
 
     string line;
@@ -241,18 +255,18 @@ vector<PasswordEntry> loadFromCSV(string& filename) {
         istringstream ss(line);
         string resource, user, password;
 
-        //читаем поля, разделённые запятыми
+        //С‡РёС‚Р°РµРј РїРѕР»СЏ, СЂР°Р·РґРµР»С‘РЅРЅС‹Рµ Р·Р°РїСЏС‚С‹РјРё
         if (getline(ss, resource, ',') &&
             getline(ss, user, ',') &&
             getline(ss, password, ',')) {
-            db.emplace_back(resource, user, password);
+            db.emplace_back(encryptDecrypt(resource), encryptDecrypt(user), encryptDecrypt(password));
         }
     }
     return db;
 }
 
 void showMenu() {
-    cout << "1 - загрузить базу данных вручную\n2 - добавить новые записи в базу данных" <<
-        "\n3 - удалить запись из базы данных\n4 - сохранить новые пароли вручную"<<
-        "\n5 - показать базу данных паролей\n0 - выход" << endl;
+    cout << "1 - Р·Р°РіСЂСѓР·РёС‚СЊ Р±Р°Р·Сѓ РґР°РЅРЅС‹С… РІСЂСѓС‡РЅСѓСЋ\n2 - РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Рµ Р·Р°РїРёСЃРё РІ Р±Р°Р·Сѓ РґР°РЅРЅС‹С…" <<
+        "\n3 - СѓРґР°Р»РёС‚СЊ Р·Р°РїРёСЃСЊ РёР· Р±Р°Р·С‹ РґР°РЅРЅС‹С…\n4 - СЃРѕС…СЂР°РЅРёС‚СЊ РЅРѕРІС‹Рµ РїР°СЂРѕР»Рё РІСЂСѓС‡РЅСѓСЋ"<<
+        "\n5 - РїРѕРєР°Р·Р°С‚СЊ Р±Р°Р·Сѓ РґР°РЅРЅС‹С… РїР°СЂРѕР»РµР№\n0 - РІС‹С…РѕРґ" << endl;
 }
