@@ -18,6 +18,27 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CryptoProvider.cpp" />
+    <ClCompile Include="FileHandler.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="PasswordEntry.cpp" />
+    <ClCompile Include="PasswordManager.cpp" />
+    <ClCompile Include="TextHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CryptoProvider.h" />
+    <ClInclude Include="FileHandler.h" />
+    <ClInclude Include="PasswordEntry.h" />
+    <ClInclude Include="PasswordManager.h" />
+    <ClInclude Include="TextHandler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -126,12 +147,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="CryptoPM.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="classes.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
